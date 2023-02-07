@@ -8,7 +8,6 @@ import hmac
 import hashlib
 import sqlite3
 import pickle
-from apscheduler.schedulers.background import BackgroundScheduler
 import logging
 from pyChatGPT import ChatGPT
 app = Flask(__name__)
@@ -39,6 +38,10 @@ def cgu():
 def profil():
     return render_template("profil.html")
 
+@app.route('/about')
+def about():
+    return render_template("about.html")
+    
 
 if __name__ == '__main__':
     app.run()
