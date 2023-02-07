@@ -19,7 +19,13 @@ def main():
         return render_template("acceuilnotlogin.html")
 
 
+@app.route('/connexion')
+def login():
+    return render_template("Login.html")
 
+@app.route('/inscription')
+def signup():
+    return render_template("Signup.html")
 
 
 
