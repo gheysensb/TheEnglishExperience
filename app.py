@@ -27,7 +27,17 @@ def login():
 def signup():
     return render_template("Signup.html")
 
+@app.route('/apropos')
+def apropos():
+    return render_template("about.html")
 
+@app.route('/cgu')
+def cgu():
+    return render_template("cgu.html")
+
+@app.route('/profil')
+def profil():
+    return render_template("profil.html")
 
 
 if __name__ == '__main__':
