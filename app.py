@@ -8,7 +8,6 @@ import hmac
 import hashlib
 import sqlite3
 import pickle
-from apscheduler.schedulers.background import BackgroundScheduler
 import logging
 from pyChatGPT import ChatGPT
 app = Flask(__name__)
