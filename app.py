@@ -42,6 +42,13 @@ def profil():
 def apprentissage():
     return render_template("apprentissage.html")
 
+@app.route('/about')
+def about():
+    return render_template("about.html")
+
+@app.route('/add')
+def add():
+    return render_template("ajout.html")
 
 @app.route('/challenge')
 def challenge():
