@@ -39,6 +39,27 @@ def cgu():
 def profil():
     return render_template("profil.html")
 
+@app.route('/apprentissage')
+def apprentissage():
+    return render_template("apprentissage.html")
+
+
+@app.route('/challenge')
+def challenge():
+    return render_template('challenge.html')
+
+@app.route('/scoreboard')
+def scoreboard():
+    return render_template('scoreboard.html')
+
+@app.route('/coursparticulier')
+def coursparticulier():
+    return render_template('coursparticulier.html')
+
+
+@app.route('/leçon')
+def lecon():
+    return render_template('leçon.html')
 
 if __name__ == '__main__':
     app.run()
