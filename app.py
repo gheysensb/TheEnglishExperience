@@ -13,18 +13,53 @@ from pyChatGPT import ChatGPT
 app = Flask(__name__)
 app.secret_key = 'laclé'
 app.config["SESSION_TYPE"]="filesystem"
+
+# Création du connecteur à la base de données database.db
+
+
+
 @app.route('/')
 def main():
         return render_template("acceuilnotlogin.html")
 
 
-@app.route('/connexion')
+@app.route('/login')
 def login():
-    return render_template("Login.html")
+    if "user" in session:
+        return redirect("/")
+    else:
+        return render_template("Login.html")
 
-@app.route('/inscription')
-def signup():
-    return render_template("Signup.html")
+
+@app.route('/signup')
+def signin():
+
+        if "user" in session:
+            return redirect("/")
+        return render_template("Signup.html")
+
+@app.route('/signup', methods=['POST'])
+def signup_post():
+    name = request.form.get('name')
+    password = request.form.get('password')
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute("""SELECT username from userinfo WHERE username = 'bro' """)
+    liste = cursor.fetchall()
+    if len(liste) != 0:
+        flash("Ce pseudo est déjà enregistré pour un autre soldat")
+        return redirect("/signup")
+    elif len(name) > 20  or len(password) > 90:
+        flash("L'adresse email , le mot de passe ou le nom est trop long !")
+        return redirect("/signup")
+    requete = """INSERT INTO userinfo (username,password)VALUES(?,?)"""
+    values = ( name,password,)
+    cursor.execute(requete, values)
+    session['user'] = name
+    cursor.close()
+    conn.commit()
+    conn.close()
+    return redirect("/")
 
 @app.route('/apropos')
 def apropos():
@@ -68,6 +103,7 @@ def lecon():
     return render_template('leçon.html')
 
 if __name__ == '__main__':
+
     app.run()
 
 
