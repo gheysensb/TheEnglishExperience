@@ -30,6 +30,30 @@ def login():
     else:
         return render_template("Login.html")
 
+@app.route('/login', methods=['POST'])
+def login_post():
+    name = request.form.get('name')
+    password = request.form.get('password')
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute("""SELECT username from userinfo WHERE username = ? """, (name, ))
+    liste = cursor.fetchall()
+    if len(liste) == 0:
+        flash("Ce pseudo n'est pas enregistré")
+        return redirect("/login")
+    elif len(name) > 20  or len(password) > 90:
+        flash("L'adresse email , le mot de passe ou le nom est trop long !")
+        return redirect("/login")
+    cursor.execute("""SELECT password from userinfo WHERE username = ? """, (name, ))
+    liste = cursor.fetchall()
+    if liste[0][0] != password:
+        flash("Mot de passe incorrect")
+        return redirect("/login")
+    session['user'] = name
+    cursor.close()
+    conn.commit()
+    conn.close()
+    return redirect("/")
 
 @app.route('/signup')
 def signin():
@@ -38,13 +62,18 @@ def signin():
             return redirect("/")
         return render_template("Signup.html")
 
+@app.route('/logout')
+def logout():
+    session.pop("user", None)
+    return redirect("/")
+
 @app.route('/signup', methods=['POST'])
 def signup_post():
     name = request.form.get('name')
     password = request.form.get('password')
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
-    cursor.execute("""SELECT username from userinfo WHERE username = 'bro' """)
+    cursor.execute("""SELECT username from userinfo WHERE username = ? """, (name, ))
     liste = cursor.fetchall()
     if len(liste) != 0:
         flash("Ce pseudo est déjà enregistré pour un autre soldat")

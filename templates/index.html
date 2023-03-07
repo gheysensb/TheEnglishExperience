@@ -190,7 +190,7 @@
 
               </nav>
             </div><div class="sm:flex justify-end hidden pr-16 lg:pr-0">
-
+              {% if not session['user'] %}
               <a
                 href="/signup"
                 class="
@@ -225,6 +225,7 @@
               >
                 Connexion
               </a>
+                {% endif %}
             </div>
               {% if session['user'] %}
               <div class="sm:flex justify-end pr-16 lg:pr-0">
